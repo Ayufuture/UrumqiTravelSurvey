@@ -6,7 +6,7 @@ import datetime
 
 pd.options.mode.chained_assignment = None  # default='warn'
 ###load and combine metro volume data
-path=r'C:/Users/yi.gu/Documents/2020乌鲁木齐交通调查任务书/各单位调研材料/地铁城轨集团/地铁数据-2021年5月和6月/数据'
+path=r'C:/各单位调研材料/地铁城轨集团/地铁数据-2021年5月和6月/数据'
 files = os.listdir(path)
 ODdf=pd.DataFrame()
 enterdf=pd.DataFrame()
@@ -53,7 +53,7 @@ ODdf2021=ODdf2021[ODdf2021['mark']=='N']
 ODdf2021['mark']=ODdf['DEAL_DATETIME'].apply(lambda x: 'Y'if len(str(x))<18 else 'N') #'Y' datetime wrong
 ICOD=ODdf2021[ODdf2021['mark']=='N']
 
-stat_dist=pd.read_excel(r'C:\Users\yi.gu\Documents\2020乌鲁木齐交通调查任务书\各单位调研材料\地铁城轨集团\刷卡数据、站间OD-5月1日当天\站间距.xlsx')
+stat_dist=pd.read_excel(r'C:\各单位调研材料\地铁城轨集团\刷卡数据、站间OD-5月1日当天\站间距.xlsx')
 stat_dist=stat_dist.iloc[0:21,:]
 
 stat_od_dist=pd.DataFrame(columns=stat_dist.columns)
@@ -82,7 +82,6 @@ for i in range(1,22):
             stat_od_dist = stat_od_dist.append([{'起点序号': i, '起点站名': stati, '终点序号': i, '终点站名': stati,
                                                  '站间距': 0,'起点行政区':stati_AMD,'终点行政区':stati_AMD}])
 
-#stat_od_dist.to_excel(r'C:\Users\yi.gu\Documents\2020乌鲁木齐交通调查任务书\各单位调研材料\地铁城轨集团\刷卡数据、站间OD-5月1日当天\OD站间距.xlsx',index=False)
 
 
 def durationfun(start,end):
@@ -212,7 +211,7 @@ intensity=ICOD['TR_TYPE'].count()/ICOD['Distance'].max()
 
 
 ## export to excel
-writer=pd.ExcelWriter(r'C:/Users/yi.gu/Documents/2020乌鲁木齐交通调查任务书/各单位调研材料/地铁城轨集团/地铁数据-2021年5月和6月/summary_MayJune.xlsx')
+writer=pd.ExcelWriter(r'C:/地铁城轨集团/地铁数据-2021年5月和6月/summary_MayJune.xlsx')
 ICOD_Daily.to_excel(writer,sheet_name='Daily',startrow=0,startcol=0,index=False)
 ICOD_wn_hour.to_excel(writer,sheet_name='weekend_hour',startrow=0,startcol=0,index=False)
 ICOD_wd_hour.to_excel(writer,sheet_name='weekday_hour',startrow=0,startcol=0,index=False)
@@ -240,9 +239,9 @@ ICOD_PM=ICOD[(ICOD['dayoweek']!='Sun')&(ICOD['dayoweek']!='Sat')&(ICOD['period']
 ICOD_NonPeak=ICOD[(ICOD['dayoweek']!='Sun')&(ICOD['dayoweek']!='Sat')&(ICOD['period']!='PM_Peak')&(ICOD['period']!='AM_Peak')]
 ICODlist=[ICOD_AM,ICOD_PM,ICOD_NonPeak]
 totaldaylist=[weekdaycount,weekendcount]
-file1=r'C:/Users/yi.gu/Documents/2020乌鲁木齐交通调查任务书/各单位调研材料/地铁城轨集团/地铁数据-2021年5月和6月/summary_MayJune_AM.xlsx'
-file2=r'C:/Users/yi.gu/Documents/2020乌鲁木齐交通调查任务书/各单位调研材料/地铁城轨集团/地铁数据-2021年5月和6月/summary_MayJune_PM.xlsx'
-file3=r'C:/Users/yi.gu/Documents/2020乌鲁木齐交通调查任务书/各单位调研材料/地铁城轨集团/地铁数据-2021年5月和6月/summary_MayJune_NonPeak.xlsx'
+file1=r'C:/地铁城轨集团/地铁数据-2021年5月和6月/summary_MayJune_AM.xlsx'
+file2=r'C:/地铁城轨集团/地铁数据-2021年5月和6月/summary_MayJune_PM.xlsx'
+file3=r'C:/地铁城轨集团/地铁数据-2021年5月和6月/summary_MayJune_NonPeak.xlsx'
 
 filenamelist=[file1,file2,file3]
 for i in range(3):
@@ -338,14 +337,14 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from shapely import geometry
 plt.rcParams['font.family'] = 'simhei'
-centroiddf=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\Test GIS\District\District_Centroid.xls')
+centroiddf=pd.read_excel(r'C:\Test GIS\District\District_Centroid.xls')
 centroiddf['District']=centroiddf['District'].replace('高新区','新市区')
-Region = gpd.read_file(r'C:\Users\yi.gu\Documents\Hyder Related\Test GIS\District\District.shp', encoding='gbk')
+Region = gpd.read_file(r'C:\Test GIS\District\District.shp', encoding='gbk')
 Region = Region.to_crs(4326)
 Region = Region.loc[0:5, :]
 Region=Region[Region['District']!='米东区']
 
-file=r'C:\Users\yi.gu\Documents\2020乌鲁木齐交通调查任务书\各单位调研材料\地铁城轨集团\地铁数据-2021年5月和6月\period_district_od.xlsx'
+file=r'C:\地铁城轨集团\地铁数据-2021年5月和6月\period_district_od.xlsx'
 xl=pd.ExcelFile(file)
 for sheet in xl.sheet_names:
     df1=pd.read_excel(file,sheet_name=sheet)
@@ -358,7 +357,7 @@ for sheet in xl.sheet_names:
                                     (df1.loc[i, 'D_X'], df1.loc[i, 'D_Y'])])
         linelist.append(line)
     polylines = gpd.GeoSeries(linelist, crs='EPSG:4326', index=df1['trip'])
-    polylines.to_file(r'C:\Users\yi.gu\Documents\2020乌鲁木齐交通调查任务书\各单位调研材料\地铁城轨集团\地铁数据-2021年5月和6月\district_od_{}.shp'.format(sheet), encoding='utf-8')
+    polylines.to_file(r'C:\地铁城轨集团\地铁数据-2021年5月和6月\district_od_{}.shp'.format(sheet), encoding='utf-8')
 
     fig = plt.figure()
     ax = plt.subplot(111)
@@ -395,7 +394,7 @@ for sheet in xl.sheet_names:
     # set xlim ylim
     plt.show()
     plt.title('{}_地铁OD分布图'.format(sheet), fontsize=18, fontweight='bold')
-    plt.savefig(r'C:\Users\yi.gu\Documents\2020乌鲁木齐交通调查任务书\各单位调研材料\地铁城轨集团\地铁数据-2021年5月和6月\地铁OD_matrix_{}.png'.format(sheet), dpi=300)
+    plt.savefig(r'C:\地铁城轨集团\地铁数据-2021年5月和6月\地铁OD_matrix_{}.png'.format(sheet), dpi=300)
 
 #########早晚高峰时段公共交通平均拥挤度,地铁一节车厢额定载客量310，6节车厢，高峰发车间隔6分（1小时10班）
 ICOD=ICOD.rename(columns={'CHINESE_NAME':'起点站名','CHINESE_NAME.1':'终点站名'})
