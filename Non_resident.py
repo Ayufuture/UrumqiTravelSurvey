@@ -7,7 +7,7 @@ from datetime import datetime
 import geopandas as gpd
 from shapely import geometry
 
-rawdatafile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\乌鲁木齐市居民出行调查数据-0630.xlsx'
+rawdatafile=r'C:\调查结果数据\居民出行调查\乌鲁木齐市居民出行调查数据-0630.xlsx'
 non_resid=pd.read_excel(rawdatafile,sheet_name='成员信息')
 non_resid['年龄1']=non_resid['年龄'].apply(lambda x: '6-14岁' if x<=14 else ( '60岁及以上'if x>=60 else '15-59岁'))
 non_resid['就业就学状态']=non_resid['就业就学状态'].replace(['无业','离退休再就业'],['待业','离退休'])
@@ -30,7 +30,7 @@ for col in ['区域名称','性别','年龄1','就业就学状态','出行次数
 
 ##流动人口总278690人，6月宾馆酒店1542106人，酒店宾馆停留天数3.5天
 non_resid_str=non_resid.groupby('街道名称')['成员编号'].count().reset_index()
-restrictionfile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Restrictions0922.xlsx'
+restrictionfile=r'C:\调查结果数据\居民出行调查\Restrictions0922.xlsx'
 StreetN=pd.read_excel(restrictionfile, sheet_name='StreetNo')
 totalnon_resi=279690-1542106*3.5/30
 totalnon_resi=totalnon_resi*(StreetN['CensusPop'].sum()/(4054369-243900))
@@ -112,7 +112,7 @@ for col in ['区域名称','性别','年龄1','就业就学状态','出行次数
     dfnamelist.append(col)
 
 
-writer=pd.ExcelWriter(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\非酒店流动人口summary.xlsx')
+writer=pd.ExcelWriter(r'C:\调查结果数据\居民出行调查\非酒店流动人口summary.xlsx')
 ### 1.家庭情况
 if len(dflist)>0:
     startr = 1
@@ -130,7 +130,7 @@ writer.save()
 
 
 print((non_residtrip['此次出行换乘次数']*non_residtrip['weight']).sum()/non_residtrip['weight'].sum())
-triptaz=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\出行信息.xlsx')
+triptaz=pd.read_excel(r'C:\调查结果数据\居民出行调查\出行信息.xlsx')
 non_residtrip=non_residtrip.merge(triptaz[['出行编号','TAZ_O','TAZ_D']],how='left',on='出行编号')
 print(non_residtrip.loc[0,'出发时间'])
 
@@ -160,7 +160,7 @@ car_AM_matrix=non_residtrip[(non_residtrip['pc']==1)&(non_residtrip['period']=='
 car_AM_matrix=car_AM_matrix.sort_values(by=['TAZ_O','TAZ_D'])
 car_PM_matrix=non_residtrip[(non_residtrip['pc']==1)&(non_residtrip['period']=='PM_Peak')].dropna(subset=['TAZ_O','TAZ_D']).groupby(['TAZ_O','TAZ_D'])['weight'].sum().reset_index()
 car_PM_matrix=car_PM_matrix.sort_values(by=['TAZ_O','TAZ_D'])
-writer=pd.ExcelWriter(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\car_taz_非酒店宾馆的流动人口.xlsx')
+writer=pd.ExcelWriter(r'C:\调查结果数据\居民出行调查\car_taz_非酒店宾馆的流动人口.xlsx')
 car_taz_matrix.to_excel(writer,sheet_name='entireday', startrow=0, startcol=0, index=False)
 car_AM_matrix.to_excel(writer,sheet_name='AM_Peak', startrow=0, startcol=0, index=False)
 car_PM_matrix.to_excel(writer,sheet_name='PM_Peak', startrow=0, startcol=0, index=False)
@@ -168,7 +168,7 @@ writer.save()
 
 
 #酒店流动人口taz
-visitortrip=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\流动人口出行信息.xlsx')
+visitortrip=pd.read_excel(r'C:\调查结果数据\流动人口出行信息.xlsx')
 if 'period' not in visitortrip.columns:
     visitortrip['period'] = visitortrip['hour'].apply(lambda x: periodfun(x))
 for col in ['15(私人小汽车（自驾）)','15(私人小汽车（搭乘）)','15(租赁汽车)','15(黑车)','15(单位小汽车)']:
@@ -196,7 +196,7 @@ car_PM_matrix0=car_PM_matrix.merge(car_PM_matrix1,how='outer',on=['TAZ_O','TAZ_D
 car_PM_matrix0=car_PM_matrix0.fillna(0)
 car_PM_matrix0['trips']=car_PM_matrix0['weight_x']+car_PM_matrix0['weight_y']
 
-writer=pd.ExcelWriter(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\car_taz_流动人口.xlsx')
+writer=pd.ExcelWriter(r'C:\调查结果数据\car_taz_流动人口.xlsx')
 car_taz_matrix0[['TAZ_O','TAZ_D','trips']].to_excel(writer,sheet_name='entireday', startrow=0, startcol=0, index=False)
 car_AM_matrix0[['TAZ_O','TAZ_D','trips']].to_excel(writer,sheet_name='AM_Peak', startrow=0, startcol=0, index=False)
 car_PM_matrix0[['TAZ_O','TAZ_D','trips']].to_excel(writer,sheet_name='PM_Peak', startrow=0, startcol=0, index=False)
