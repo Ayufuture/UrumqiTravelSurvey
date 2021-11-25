@@ -14,7 +14,7 @@ plt.rcParams['font.family'] = 'simhei'
 pd.options.mode.chained_assignment = None  # default='warn'
 ######################校核线公交满载率调查结果分析#########################################################
 
-path = r"C:/Users/yi.gu/Documents/Hyder Related/调查结果数据/公交满载率调查结果0608/公交满载率调查数据成果"
+path = r"C:/调查结果数据/公交满载率调查数据成果"
 files= os.listdir(path)
 data=pd.DataFrame()
 for file in files:
@@ -29,7 +29,7 @@ print(len(set(data['点位编号'])))
 print(set(data['点位编号']))
 
 data=data[['序号', '点位编号', '点位名称','断面位置描述','观测方向', '时间','线路号','满载情况']].reset_index().drop(columns='index')
-crosssection=pd.read_excel(r"C:/Users/yi.gu/Documents/Hyder Related/调查结果数据/公交满载率调查结果0608/公交满载率点位.xlsx",sheet_name='公交满载率点位')
+crosssection=pd.read_excel(r"C:/调查结果数据/公交满载率点位.xlsx",sheet_name='公交满载率点位')
 data=pd.merge(data,crosssection[['编号','核查线']],how='left',left_on='点位编号',right_on='编号').drop(columns='编号')
 data=data.drop(index=data[data['点位编号']=='点位编号'].index)
 data=data.dropna(subset=['点位编号','线路号','满载情况'])
@@ -67,7 +67,7 @@ data['dropmark']=data['线路号'].apply(lambda x:keyword(x))
 data=data.drop(index=data[data['dropmark']=='Y'].index)
 print(set(data['线路号']))
 print(data.shape)
-#data.groupby(['点位编号','线路号'])['时间'].count().reset_index().to_excel(r"D:/Hyder安诚/调查结果数据/公交满载率调查数据成果/线路名核查.xlsx",index=False)
+#data.groupby(['点位编号','线路号'])['时间'].count().reset_index().to_excel(r"D:/调查结果数据/公交满载率调查数据成果/线路名核查.xlsx",index=False)
 
 def correcttime(x):
     try:
@@ -102,11 +102,11 @@ data['时间']=data['时间'].apply(lambda x:correcttime(x))
 data=data.replace(to_replace ="东-环西侧",value ="东一环西侧")
 
 
-status=pd.read_excel(r"C:/Users/yi.gu/Documents/Hyder Related/调查结果数据/公交满载率调查结果0608/公交满载率点位.xlsx",sheet_name='Sheet1')
+status=pd.read_excel(r"C:/调查结果数据/公交满载率调查结果0608/公交满载率点位.xlsx",sheet_name='Sheet1')
 data=pd.merge(data,status,how='left',on='满载情况')
 
 sum_spot=pd.DataFrame()
-busroute=pd.read_excel(r"C:/Users/yi.gu/Documents/Hyder Related/调查结果数据/公交满载率调查结果0608/busnamelist.xlsx",sheet_name='Sheet2')
+busroute=pd.read_excel(r"C:/调查结果数据/公交满载率调查结果0608/busnamelist.xlsx",sheet_name='Sheet2')
 busroute['线路']=busroute['线路'].apply(lambda x: str(x))
 for spot in set(data['点位编号']):
     spotname1=list(data.loc[data['点位编号']==spot,'点位名称'])[0]
@@ -133,7 +133,7 @@ for spot in set(data['点位编号']):
     print(spot,bus_text)
     sum_spot=sum_spot.append([{'点位编号':spot,'点位名称':spotname1,'核查线':spotname2,'经过线路':bus_text,'应经过线路':busstring,'实际发车数':buscount}])
 
-#sum_spot.to_excel(r"D:/Hyder安诚/调查结果数据/公交满载率调查结果0608/cross_section_summary.xlsx",index=False)
+#sum_spot.to_excel(r"D:/调查结果数据/公交满载率调查结果0608/cross_section_summary.xlsx",index=False)
 data['hour']=0
 for i in data.index:
 
@@ -206,7 +206,7 @@ sum_period_overall['pct']=round(100*sum_period_overall['total']/sum_period_overa
 sum_period_overall['满载率']=round(100*sum_period_overall['average']/76,2)
 
 
-writer=pd.ExcelWriter(r'C:/Users/yi.gu/Documents/Hyder Related/调查结果数据/公交满载率调查结果0608/summary.xlsx')
+writer=pd.ExcelWriter(r'C:/调查结果数据/公交满载率调查结果0608/summary.xlsx')
 sum_spot.to_excel(writer, sheet_name='spot', startrow=0, startcol=0, index=False)
 sum_hour.to_excel(writer,sheet_name='spot_hour', startrow=0, startcol=0, index=False)
 sum_hour_overall.to_excel(writer,sheet_name='overall_hour', startrow=0, startcol=0, index=False)
@@ -233,7 +233,7 @@ for sect in set(sum_hour['核查线']):
     plt.legend(loc='best')
     plt.title(sect+'高峰时段满载率', fontsize=15)
     #plt.show()
-    figname=r'C:/Users/yi.gu/Documents/Hyder Related/调查结果数据/公交满载率调查结果0608/校核线满载率柱状图/'+sect+'高峰时段满载率.png'
+    figname=r'C:/调查结果数据/公交满载率调查结果0608/校核线满载率柱状图/'+sect+'高峰时段满载率.png'
     plt.savefig(figname, bbox_inches='tight')
     plt.close()
 
@@ -249,7 +249,7 @@ from difflib import SequenceMatcher#导入库
 def similarity(a, b):
     return SequenceMatcher(None, a, b).ratio()#引用ratio方法，返回序列相似性的度量
 print(similarity('中国民族大学', '中国是世界上大学最多的国家'))
-buslist=pd.read_excel(r"C:/Users/yi.gu/Documents/Hyder Related/调查结果数据/公交满载率调查结果0608/busnamelist.xlsx")
+buslist=pd.read_excel(r"C:/调查结果数据/公交满载率调查结果0608/busnamelist.xlsx")
 buslist['线名']=buslist['线名'].apply(lambda x: str(x))
 buscountsum=pd.merge(buscountsum,buslist,how='left',left_on='线路号',right_on='线名')
 buscountsum=buscountsum.fillna('')
@@ -264,7 +264,7 @@ for spot in set(buscountsum['点位编号']):
         pairdf['similarities']=pairdf['option'].apply(lambda x:similarity(bus,x))
         buscountsum.loc[(buscountsum['线路号'] == bus) & (buscountsum['点位编号'] == spot), '可能正确的线名']=','.join(list(pairdf.loc[pairdf['similarities']==max(pairdf['similarities']),'option']))
 
-buscountsum=pd.read_excel(r"C:/Users/yi.gu/Documents/Hyder Related/调查结果数据/公交满载率调查结果0608/buscountsum.xlsx",sheet_name='Sheet1')
+buscountsum=pd.read_excel(r"C:/调查结果数据/公交满载率调查结果0608/buscountsum.xlsx",sheet_name='Sheet1')
 buscountsum=buscountsum.dropna(subset=['可能正确的线名'])
 data=pd.merge(data,buscountsum[['点位编号','点位名称','观测方向','线路号','可能正确的线名']],how='left',on=['点位编号','点位名称','观测方向','线路号'])
 data=data.fillna('')
@@ -273,14 +273,14 @@ def replacebusline(x0,x):
         x0=str(x)
     return x0
 data['线路号']=data.apply(lambda x: replacebusline(x['线路号'],x['可能正确的线名']),axis=1)
-data.to_excel(r"C:/Users/yi.gu/Documents/Hyder Related/调查结果数据/公交满载率调查结果0608/公交满载率结果combined.xlsx",index=False)
+data.to_excel(r"C:/调查结果数据/公交满载率调查结果0608/公交满载率结果combined.xlsx",index=False)
 
-data=pd.read_excel(r"C:/Users/yi.gu/Documents/Hyder Related/调查结果数据/公交满载率调查结果0608/公交满载率结果combined.xlsx",sheet_name='Sheet1')
+data=pd.read_excel(r"C:/调查结果数据/公交满载率调查结果0608/公交满载率结果combined.xlsx",sheet_name='Sheet1')
 
 
 
 ####busline cross section volumn spatial
-data=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\公交满载率调查结果0608\combined.xlsx',sheet_name='Sheet1')
+data=pd.read_excel(r'C:\调查结果数据\公交满载率调查结果0608\combined.xlsx',sheet_name='Sheet1')
 data['对应乘客数']=data['对应乘客数'].fillna('NA')
 data=data[data['对应乘客数']!='NA']
 
@@ -341,7 +341,7 @@ spot_pm['pct']=spot_pm['sum']/spot_pm['sect_sum']
 spot_pm['pct']=spot_pm['pct'].apply(lambda x: round(100*x,1))
 
 
-writer=pd.ExcelWriter(r'C:/Users/yi.gu/Documents/Hyder Related/调查结果数据/公交满载率调查结果0608/summary0817.xlsx')
+writer=pd.ExcelWriter(r'C:/调查结果数据/公交满载率调查结果0608/summary0817.xlsx')
 spot_sum.to_excel(writer, sheet_name='spot_day', startrow=0, startcol=0, index=False)
 spot_am.to_excel(writer,sheet_name='spot_am', startrow=0, startcol=0, index=False)
 spot_pm.to_excel(writer,sheet_name='spot_pm', startrow=0, startcol=0, index=False)
@@ -372,7 +372,7 @@ for j in range(3) :
         plt.xticks(x, labels=x_label,fontsize=7,rotation=20)
         plt.ylabel(lines[i-1]+'\n客运量',fontsize=8)
     plt.legend(bbox_to_anchor=(1, -0.2), ncol = 4)
-    plt.savefig(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\公交满载率调查结果0608\校核线满载率柱状图\{}点位客流量.png'.format(name), dpi=300)
+    plt.savefig(r'C:\公交满载率调查结果0608\校核线满载率柱状图\{}点位客流量.png'.format(name), dpi=300)
 
 
 hour_sum_pvt=sum_hour.pivot(index=['核查线','hour'],columns='观测方向',values='total').reset_index()
@@ -407,7 +407,7 @@ for j in range(2) :
             plt.xticks(x, labels=x_label, fontsize=7)
         plt.ylabel(lines[i-1]+'\n客运量',fontsize=8)
     plt.legend(bbox_to_anchor=(1, -0.15), ncol = 4)
-    plt.savefig(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\公交满载率调查结果0608\校核线满载率柱状图\{}点位客流量.png'.format(name), dpi=300)
+    plt.savefig(r'C:\调查结果数据\公交满载率调查结果0608\校核线满载率柱状图\{}点位客流量.png'.format(name), dpi=300)
 
 
 
