@@ -103,7 +103,7 @@ def _transformlng(lng, lat):
 
 
 
-data=pd.read_excel(r'D:\Hyder安诚\调查结果数据\居民出行调查\乌鲁木齐市居民出行调查数据-0630.xlsx',sheet_name='出行信息')
+data=pd.read_excel(r'',sheet_name='出行信息')
 data['coord_wgs']=data.apply(lambda x:bd09_to_wgs84(x['出发X'], x['出发Y']),axis=1)
 data['出发x_wgs']=data['coord_wgs'].apply(lambda x: x[0])
 data['出发y_wgs']=data['coord_wgs'].apply(lambda x: x[1])
@@ -111,4 +111,4 @@ data['coord_wgs']=data.apply(lambda x:bd09_to_wgs84(x['到达X'], x['到达Y']),
 data['到达x_wgs']=data['coord_wgs'].apply(lambda x: x[0])
 data['到达y_wgs']=data['coord_wgs'].apply(lambda x: x[1])
 data=data.drop(columns=['coord_wgs'])
-data.to_excel(r'D:\Hyder安诚\调查结果数据\流动人口出行信息WGS.xlsx',index=False)
+data.to_excel(r'',index=False)
