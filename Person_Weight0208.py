@@ -5,10 +5,10 @@ import datetime
 pd.options.mode.chained_assignment = None  # default='warn'
 
 
-rawdatafile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\乌鲁木齐市居民出行调查数据-0918.xlsx'
-restrictionfile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Restrictions0922.xlsx'
-hhweightfile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\Results0922\df_Kid_adj.xlsx'
-dfppfile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\Results0922\dfpp4.xlsx'
+rawdatafile=r'C:\调查结果数据\居民出行调查\乌鲁木齐市居民出行调查数据-0918.xlsx'
+restrictionfile=r'C:\调查结果数据\居民出行调查\Restrictions0922.xlsx'
+hhweightfile=r'C:\调查结果数据\居民出行调查\Results\Results0922\df_Kid_adj.xlsx'
+dfppfile=r'C:\调查结果数据\居民出行调查\Results\Results0922\dfpp4.xlsx'
 
 
 dfpp = pd.read_excel(rawdatafile,sheet_name='成员信息') #info per person
