@@ -12,8 +12,8 @@ pd.options.mode.chained_assignment = None  # default='warn'
 客运站旅客出行意愿信息	根据客流规模扩样，乘车频率/选择乘车的理由
 客运站满意度	根据客流规模扩样，总体/分项目
 """
-data=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\枢纽调查\火车站枢纽问卷调查数据0615.xlsx',sheet_name='Sheet1')
-dictionary=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\枢纽调查\火车站枢纽问卷调查数据0615.xlsx',sheet_name='代号')
+data=pd.read_excel(r'C:\调查结果数据\枢纽调查\火车站枢纽问卷调查数据0615.xlsx',sheet_name='Sheet1')
+dictionary=pd.read_excel(r'C:\调查结果数据\枢纽调查\火车站枢纽问卷调查数据0615.xlsx',sheet_name='代号')
 #data['mark']='N'
 #data.loc[(data['您此次出行的起点：']==2) &(data['您从火车站去哪儿？']==2) & (data['出行的交通方式：']==12),'mark']='Y'
 #data=data[data['mark']=='N'].drop(columns=['mark'])
@@ -62,12 +62,12 @@ passengerdf.append(sum_df)
 
 ##起终点
 #load shapefile and do spatial join
-Province=gpd.read_file(r'C:/Users/yi.gu/Documents/Hyder Related/全国区划/省.shp')
+Province=gpd.read_file(r'C:/全国区划/省.shp')
 Province=Province.to_crs(4326)
-Region=gpd.read_file(r'C:/Users/yi.gu/Documents/Hyder Related/Test GIS/District/District.shp',encoding='gbk')
+Region=gpd.read_file(r'C:/Test GIS/District/District.shp',encoding='gbk')
 Region=Region.to_crs(4326)
 
-City=gpd.read_file(r'C:/Users/yi.gu/Documents/Hyder Related/全国区划/市.shp')
+City=gpd.read_file(r'C:/全国区划/市.shp')
 City=City.to_crs(4326)
 City=City[City['省代码']==650000]
 
@@ -182,7 +182,7 @@ scoredf.loc[len(scoredf),:]=scoredf.mean(axis=0)
 scoredf.loc[len(scoredf)-1,'内容']='平均'
 
 
-writer=pd.ExcelWriter(r'D:\Hyder安诚\调查结果数据\火车站满意度summary0622.xlsx')
+writer=pd.ExcelWriter(r'D:\调查结果数据\火车站满意度summary0622.xlsx')
 ### 1.乘客个人信息
 if len(passengerdf)>0:
     startr = 1
@@ -208,7 +208,7 @@ writer.save()
 
 
 
-centroid=pd.read_excel(r'C:/Users/yi.gu/Documents/Hyder Related/全国区划/Centroid.xlsx')
+centroid=pd.read_excel(r'C:/全国区划/Centroid.xlsx')
 centroid=centroid[centroid['级别']!='乌鲁木齐行政区']
 
 
