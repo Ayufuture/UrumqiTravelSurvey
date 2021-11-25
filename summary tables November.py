@@ -11,15 +11,15 @@ from shapely.ops import nearest_points
 pd.options.mode.chained_assignment = None  # default='warn'
 
 ####load weighted data and do some calculation& transformations
-rawdatafile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\乌鲁木齐市居民出行调查数据-0918.xlsx'
-restrictionfile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Restrictions1109.xlsx'
-hhweightfile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\results0922\df_Kid_adj.xlsx'
-triptazfile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\出行信息.xlsx'
-dfppcarfile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\results1109\dfpp_car.xlsx'
-dftripforsum=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\results1109\dftrip_forsummary1115_核心区duptrips.xlsx'
-summarypath=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\results1109'
+rawdatafile=r'C:\调查结果数据\居民出行调查\乌鲁木齐市居民出行调查数据-0918.xlsx'
+restrictionfile=r'C:\调查结果数据\居民出行调查\Restrictions1109.xlsx'
+hhweightfile=r'C:\调查结果数据\居民出行调查\Results\results0922\df_Kid_adj.xlsx'
+triptazfile=r'C:\调查结果数据\居民出行调查\出行信息.xlsx'
+dfppcarfile=r'C:\调查结果数据\居民出行调查\Results\results1109\dfpp_car.xlsx'
+dftripforsum=r'C:\调查结果数据\居民出行调查\Results\results1109\dftrip_forsummary1115_核心区duptrips.xlsx'
+summarypath=r'C:\调查结果数据\居民出行调查\Results\results1109'
 
-CentralArea=gpd.read_file(r'C:\Users\yi.gu\Documents\Hyder Related\Test GIS\实体地域\实体地域范围主体420.shp')
+CentralArea=gpd.read_file(r'C:\Test GIS\实体地域\实体地域范围主体420.shp')
 CentralArea=CentralArea.to_crs(4326)
 
 dfhh0 = pd.read_excel(rawdatafile, sheet_name='家庭信息')
@@ -50,7 +50,7 @@ dfppw['年龄1']=dfppw['年龄1'].replace(['above 60', '15-59', '6-14'],['60岁�
 
 
 
-dftrip0=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\Results1109\dftrip_forsummary1109.xlsx')
+dftrip0=pd.read_excel(r'C:\调查结果数据\居民出行调查\Results\Results1109\dftrip_forsummary1109.xlsx')
 dftrip0=dftrip0.drop_duplicates(subset=['家庭编号', '成员编号', '出行编号', '出行序号', '区域名称', '街道名称', '社区名称', '出发时间', '出发X',
        '出发Y', '出发详细地址', '到达时间', '到达X', '到达Y', '到达详细地址', '出行目的','使用的主要交通方式'])
 print(dftrip0.shape)
@@ -77,7 +77,7 @@ if ('period' in dftrip0.columns)&('pc' in dftrip0.columns):
     dftripadd_night = dftrip0_night[dftrip0_night.index.isin(night_array)]
 
     appendtripsr=pd.concat([dftripadd_day,dftripadd_night],ignore_index=True)
-    appendtripsr.to_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\results1109\appendduptrips.xlsx')
+    appendtripsr.to_excel(r'C:\调查结果数据\居民出行调查\Results\results1109\appendduptrips.xlsx')
     dftrip0=pd.concat([dftrip0,appendtripsr],ignore_index=True)
 
 
