@@ -5,9 +5,9 @@ import re
 
 pd.options.mode.chained_assignment = None  # default='warn'
 ######################公交满意度调查结果分析#########################################################
-data=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\地铁满意度\乌鲁木齐市轨道客流满意度调查数据库-11.17.xlsx',sheet_name='Sheet1')
-stationlist=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\地铁满意度\轨道客流出行特征和满意度调查数据06.19提交.xlsx',sheet_name='站点')
-dictionary=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\地铁满意度\轨道客流出行特征和满意度调查数据06.19提交.xlsx',sheet_name='代号')
+data=pd.read_excel(r'C:\调查结果数据\地铁满意度\乌鲁木齐市轨道客流满意度调查数据库-11.17.xlsx',sheet_name='Sheet1')
+stationlist=pd.read_excel(r'C:\调查结果数据\地铁满意度\轨道客流出行特征和满意度调查数据06.19提交.xlsx',sheet_name='站点')
+dictionary=pd.read_excel(r'C:\调查结果数据\地铁满意度\轨道客流出行特征和满意度调查数据06.19提交.xlsx',sheet_name='代号')
 colnamelist=dictionary.columns[1:]
 def satisfscore(x):
     if x==1 or x==2:
@@ -369,7 +369,7 @@ satislist=['4、乘客满意度调查—进出站标识、标志、广播指引�
        '4、对车内设施满意度评价，包括车载广播、电视播报系统，车内环境、通风、空调，座椅扶手安全牢靠等',
        '4、对车门/屏蔽门开关安全无故障满意度评价', '4、对站内逃生疏散通道了解情况']
 
-weightdf=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\地铁满意度\乌鲁木齐市轨道客流满意度调查数据库-11.17.xlsx',sheet_name='满意度')
+weightdf=pd.read_excel(r'C:\调查结果数据\地铁满意度\乌鲁木齐市轨道客流满意度调查数据库-11.17.xlsx',sheet_name='满意度')
 
 #二级指标（19项分类别平均得分）
 for colname in ['3、出行目的',  '12、您每月乘坐地铁的次数是', '15、您的性别：', '16、您的户籍', '17、您的职业是', '18、您每月的收入水平是',
@@ -456,10 +456,10 @@ sheet1.write(rown+scoredf.shape[0]+4,1,stationlist)
 writer.save()
 
 #################################################2021 November Data ##########################################
-data=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\地铁满意度\乌鲁木齐市轨道客流满意度调查数据库-11.17.xlsx',sheet_name='Sheet1')
+data=pd.read_excel(r'C:\调查结果数据\地铁满意度\乌鲁木齐市轨道客流满意度调查数据库-11.17.xlsx',sheet_name='Sheet1')
 if 'Unnamed: 26' in data.columns:
     data=data.drop(columns=[ 'Unnamed: 25', 'Unnamed: 26'])
-weightdf = pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\地铁满意度\乌鲁木齐市轨道客流满意度调查数据库-11.17.xlsx',
+weightdf = pd.read_excel(r'C:\调查结果数据\地铁满意度\乌鲁木齐市轨道客流满意度调查数据库-11.17.xlsx',
                          sheet_name='满意度')
 satislist = ['4、乘客满意度调查—进出站标识、标志、广播指引等信息全面清晰醒目', '4、购票、检票支付方式以及下载使用相关APP方便快捷',
              '4、安检工作规范有序、通过顺畅', '4、环境整洁、通风良好、温度适宜及空气质量良好',
@@ -524,7 +524,7 @@ scoredf2=weightdf[weightdf['评价指标']!=''].groupby(['评价指标']).agg(
 scoredf2['pct']=round(100*scoredf2['得分']/scoredf2['分值'],2)
 scoredf2=scoredf2.merge(scoredf,how='left',on='评价指标')
 
-writer=pd.ExcelWriter(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\地铁满意度\地铁满意度summary1122.xlsx')
+writer=pd.ExcelWriter(r'C:\调查结果数据\地铁满意度\地铁满意度summary1122.xlsx')
 weightdf.to_excel(writer,sheet_name='satisfaction', startrow=0, startcol=0, index=False)
 rown=weightdf.shape[0]+2
 scoredf2.to_excel(writer,sheet_name='satisfaction', startrow=rown, startcol=0, index=False)
