@@ -18,12 +18,12 @@ pd.options.mode.chained_assignment = None  # default='warn'
 ## and adjust the weights of the largest groups
 
 # starting with pattern with most people
-rawdatafile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\乌鲁木齐市居民出行调查数据-0918.xlsx'
-restrictionfile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Restrictions0922.xlsx'
-hhweightfile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\Results0922\df_Kid_adj.xlsx'
-dfppfile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\Results0922\dfpp4.xlsx'
-dfppcarfile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\Results0922\dfpp_car.xlsx'
-tazreference=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\TAZReference.xlsx'
+rawdatafile=r'C:\调查结果数据\居民出行调查\乌鲁木齐市居民出行调查数据-0918.xlsx'
+restrictionfile=r'C:\调查结果数据\居民出行调查\Restrictions0922.xlsx'
+hhweightfile=r'C:\调查结果数据\居民出行调查\Results\Results0922\df_Kid_adj.xlsx'
+dfppfile=r'C:\调查结果数据\居民出行调查\Results\Results0922\dfpp4.xlsx'
+dfppcarfile=r'C:\调查结果数据\居民出行调查\Results\Results0922\dfpp_car.xlsx'
+tazreference=r'C:\调查结果数据\居民出行调查\TAZReference.xlsx'
 dfpp = pd.read_excel(dfppfile, sheet_name='dfpp') #info per person
 dftrip = pd.read_excel(rawdatafile, sheet_name='出行信息')
 dftrip=dftrip.rename(columns={'出发时间（24小时制）':'出发时间','到达时间（24小时制）':'到达时间'})
@@ -116,7 +116,7 @@ dfpp=pd.merge(dfpp,dfpcsum,how='left',left_on='成员编号',right_on='成员编
 dfpp=dfpp.where(dfpp.notnull(),0)
 
 
-#dfpp.to_excel(r'D:\Urumqi\results\dfpp_trip.xlsx',index=False)
+
 
 
 def typefun(am_count , pm_count , day_count , night_count):
@@ -248,7 +248,7 @@ dfpp=dfpp.rename(columns={'total':'busweight'})
 endtime = datetime.datetime.now()
 print('bus weight adjustment:')
 print((endtime - starttime).seconds)
-#dfpp.to_excel(r'D:\Urumqi\results\dfpp_bus.xlsx',index=False)
+
 
 
 #### taxi travel pattern (total number and proportions)####
