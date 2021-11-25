@@ -9,7 +9,7 @@ from geopy.distance import geodesic
 pd.options.mode.chained_assignment = None  # default='warn'
 ######################校核线小客车满载率调查结果分析#########################################################
 
-path = r"D:/Hyder安诚/调查结果数据/小客车数据（已修）/小客车数据"
+path = r"D:/调查结果数据/小客车数据（已修）/小客车数据"
 files= os.listdir(path)
 data=pd.DataFrame()
 for file in files:
@@ -60,15 +60,15 @@ for file in files:
         data1['方向'] = '单向'
     data=pd.concat([data,data1])
 data=data.loc[(data['序号']!='序号')&(data['序号']!='序号 '),:].reset_index()
-crosssection=pd.read_excel(r"D:/Hyder安诚/调查结果数据/小客车数据（已修）/小客车满载率调查点位.xlsx",sheet_name='Sheet1')
-spot_district=pd.read_excel(r"D:/Hyder安诚/调查结果数据/小客车数据（已修）/小客车满载率调查点位.xlsx",sheet_name='行政区')
+crosssection=pd.read_excel(r"D:/调查结果数据/小客车数据（已修）/小客车满载率调查点位.xlsx",sheet_name='Sheet1')
+spot_district=pd.read_excel(r"D:/调查结果数据/小客车数据（已修）/小客车满载率调查点位.xlsx",sheet_name='行政区')
 data=pd.merge(data,crosssection[['编号','断面位置描述','核查线']],how='left',left_on='点位编号',right_on='编号')
 data=pd.merge(data,spot_district[['编号','行政区']],how='left',left_on='点位编号',right_on='编号')
 data=data.drop(columns=['编号_x','编号_y', '调查员姓名', '联系电话','断面位置描述_x']).rename(columns={'断面位置描述_y':'断面位置描述'})
 data_zip=data[['点位编号','行政区']].drop_duplicates()
 data=data.replace(' ',0).replace('：',':')
-data.to_excel(r'D:/Hyder安诚/调查结果数据/小客车数据（已修）/小客车combined.xlsx',index=False)
-#data=pd.read_excel(r'D:/Hyder安诚/调查结果数据/小客车数据（已修）/小客车combined.xlsx')
+data.to_excel(r'D:/调查结果数据/小客车数据（已修）/小客车combined.xlsx',index=False)
+
 data=data.replace(' ',0).replace('：',':')
 datan=data
 
@@ -242,7 +242,7 @@ for col in ['小汽车一人', '小汽车两人', '小汽车三人', '小汽车�
 
 
 
-writer=pd.ExcelWriter(r'D:/Hyder安诚/调查结果数据/小客车数据（已修）/小客车满载率summary_0706.xlsx')
+writer=pd.ExcelWriter(r'D:/调查结果数据/小客车数据（已修）/小客车满载率summary_0706.xlsx')
 sum_spot_pct.to_excel(writer, sheet_name='spot', startrow=0, startcol=0, index=False)
 sum_time_pct.to_excel(writer,sheet_name='time', startrow=0, startcol=0, index=False)
 sum_district_pct.to_excel(writer,sheet_name='District', startrow=0, startcol=0, index=False)
