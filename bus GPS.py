@@ -9,7 +9,7 @@ pd.options.mode.chained_assignment = None  # default='warn'
 
 
 bounds = [87.346553, 43.6237533, 87.748105, 44.018018]
-path=r'C:\Users\yi.gu\Documents\taxi&bus gps\Bus GPS\GPS_20210514'
+path=r'C:\Documents\taxi&bus gps\Bus GPS\GPS_20210514'
 files = os.listdir(path)
 data=pd.DataFrame()
 for file in files:
@@ -121,8 +121,8 @@ data=data[data['mark']=='N']
 print('去除整个小时没有移动的行')
 print(data.shape)
 
-bus_gps_sum.to_csv(r'C:\Users\yi.gu\Documents\taxi&bus gps\Bus GPS\bus_gps_hour_summary.csv',index=False)
-data.drop(columns=['Date_prev','Hour_prev','hourcheck','avg_speed','hour_dist','hour_dur']).to_csv(r'C:\Users\yi.gu\Documents\taxi&bus gps\Bus GPS\bus_gps_cleaned_data.csv',index=False)
+bus_gps_sum.to_csv(r'C:\Documents\taxi&bus gps\Bus GPS\bus_gps_hour_summary.csv',index=False)
+data.drop(columns=['Date_prev','Hour_prev','hourcheck','avg_speed','hour_dist','hour_dur']).to_csv(r'C:\Documents\taxi&bus gps\Bus GPS\bus_gps_cleaned_data.csv',index=False)
 
 bus_hour_avgspeed=bus_gps_sum[bus_gps_sum['avg_speed']>0].groupby('Hour').agg(
 avgspeed=pd.NamedAgg(column='avg_speed',aggfunc='mean'),
@@ -168,7 +168,7 @@ for i in range(23):
     cax = plt.axes([0.13, 0.32, 0.02, 0.3])  # 调位置
     cbar = plt.colorbar(cax=cax)
 
-    plt.savefig(r'C:\Users\yi.gu\Documents\2020乌鲁木齐交通调查任务书\各单位调研材料\公交系统运营指标\{}点公交速度.png'.format(i)) #保存图片的文件夹
+    plt.savefig(r'C:\公交系统运营指标\{}点公交速度.png'.format(i)) #保存图片的文件夹
     plt.close()
 
 busspeed=pd.read_csv(r'C:\Users\yi.gu\Documents\taxi&bus gps\Bus GPS\bus_gps_hour_summary.csv')
