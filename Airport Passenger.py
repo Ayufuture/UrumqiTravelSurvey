@@ -8,8 +8,8 @@ pd.options.mode.chained_assignment = None  # default='warn'
 客运站旅客出行意愿信息	根据客流规模扩样，乘车频率/选择乘车的理由
 客运站满意度	根据客流规模扩样，总体/分项目
 """
-data=pd.read_excel(r'D:\Hyder安诚\调查结果数据\枢纽调查\乌鲁木齐市地窝堡机场交通调查问卷数据库07.07.xlsx',sheet_name='机场数据')
-dictionary=pd.read_excel(r'D:\Hyder安诚\调查结果数据\枢纽调查\乌鲁木齐市地窝堡机场交通调查问卷数据库07.07.xlsx',sheet_name='代号')
+data=pd.read_excel(r'D:\调查结果数据\枢纽调查\乌鲁木齐市地窝堡机场交通调查问卷数据库07.07.xlsx',sheet_name='机场数据')
+dictionary=pd.read_excel(r'D:\调查结果数据\枢纽调查\乌鲁木齐市地窝堡机场交通调查问卷数据库07.07.xlsx',sheet_name='代号')
 #data['mark']='N'
 #data.loc[(data['您此次出行的起点（1城区内，2城区外）：']==2) &(data['您此次出行的终点（1城区内，2城区外）：']==2) & (data['出行的交通方式：']==12),'mark']='Y'
 #data=data[data['mark']=='N'].drop(columns=['mark'])
@@ -62,9 +62,9 @@ passengerdf.append(sum_df)
 
 
 import geopandas as gpd
-Province=gpd.read_file(r'D:/Hyder安诚/全国区划/省.shp')
+Province=gpd.read_file(r'D:/全国区划/省.shp')
 Province=Province.to_crs(4326)
-Region=gpd.read_file(r'D:/Hyder安诚/Test GIS/District/District.shp',encoding='gbk')
+Region=gpd.read_file(r'D:/Test GIS/District/District.shp',encoding='gbk')
 Region=Region.to_crs(4326)
 origin = gpd.GeoDataFrame(data, geometry = gpd.points_from_xy(data['出行起点X'], data['出行起点Y'], crs="EPSG:4326"))
 desti = gpd.GeoDataFrame(data, geometry = gpd.points_from_xy(data['出行终点X'], data['出行终点Y'], crs="EPSG:4326"))
@@ -125,8 +125,8 @@ from shapely.geometry import Point,Polygon,shape
 
 Province_point = Province.copy()
 Province_point['geometry'] = Province.centroid
-Province_point.to_excel(r'D:/Hyder安诚/全国区划/Province_Centroid.xlsx',index=False)
-centroid=pd.read_excel(r'D:/Hyder安诚/全国区划/Province_Centroid.xlsx')
+Province_point.to_excel(r'D:/全国区划/Province_Centroid.xlsx',index=False)
+centroid=pd.read_excel(r'D:/全国区划/Province_Centroid.xlsx')
 sum_odplot=data.groupby(['起点地区','终点地区'])['序号'].count().reset_index().rename(columns={'序号':'人数'})
 sum_odplot=pd.merge(sum_odplot,centroid,how='left',left_on='起点地区',right_on='省').rename(columns={'Long':'Long_x','Lat':'Lat_x'})
 sum_odplot=pd.merge(sum_odplot,centroid,how='left',left_on='终点地区',right_on='省').rename(columns={'Long':'Long_y','Lat':'Lat_y'})
@@ -219,7 +219,7 @@ scoredf.loc[len(scoredf),:]=scoredf.mean(axis=0)
 scoredf.loc[len(scoredf)-1,'内容']='平均'
 
 
-writer=pd.ExcelWriter(r'D:\Hyder安诚\调查结果数据\枢纽调查\机场满意度summary0713.xlsx')
+writer=pd.ExcelWriter(r'D:\调查结果数据\枢纽调查\机场满意度summary0713.xlsx')
 ### 1.乘客个人信息
 if len(passengerdf)>0:
     startr = 1
