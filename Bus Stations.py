@@ -20,11 +20,12 @@ def distancefun(lat1, long1, lat2, long2):
     except:
         return 0
 ##### use amap api to obtain busstop coordinates
+key=r''
 busstops=pd.DataFrame()
 linelist=[17,29,56,72,98,311,535,5035,5201,9,1002,22,2007,23,45,70,76,518,613,910,3401,5031,5033,5036,5037,6005,6007,6008,6009,
           6011,52,303,44,68,6502,'S601','S602']
 for line in linelist:
-    url = 'https://restapi.amap.com/v3/bus/linename?s=rsv3&extensions=all&key=559bdffe35eec8c8f4dae959451d705c&output=json&city=%E4%B9%8C%E9%B2%81%E6%9C%A8%E9%BD%90&offset=2&keywords={}&platform=JS'.format(
+    url = 'https://restapi.amap.com/v3/bus/linename?s=rsv3&extensions=all&key={}&output=json&city=%E4%B9%8C%E9%B2%81%E6%9C%A8%E9%BD%90&offset=2&keywords={}&platform=JS'.format(key,
         line)
     r = requests.get(url, verify=False).text
     rt = json.loads(r)
@@ -50,9 +51,9 @@ for line in linelist:
 
 busstops=busstops.reset_index().drop(columns=['index'])
 #busstops.to_excel( r'C:\Users\yi.gu\Documents\bus_stops_fromWeb.xlsx',index=False)
-busstops=pd.read_excel( r'D:\Hyder安诚\乌鲁木齐公交运行\bus_stops_fromWeb0623.xlsx')
+busstops=pd.read_excel( r'D:\乌鲁木齐公交运行\bus_stops_fromWeb.xlsx')
 
-buslines=pd.read_excel( r'D:\Hyder安诚\乌鲁木齐公交运行\buslinematchstop_0623.xls')
+buslines=pd.read_excel( r'D:\乌鲁木齐公交运行\buslinematchstop.xls')
 buslines['Stop']=buslines['noalight']+buslines['noboard']
 buslines['Stop']=buslines['Stop'].apply(lambda x: 'Y' if x<2 else 'N')
 buslines['bus_line']=buslines['bus_line'].apply(lambda x:str(x))
@@ -139,8 +140,8 @@ boardcount.to_excel( r'D:\Hyder安诚\bus_boardcount.xlsx',index=False)
 
 
 
-buslines=pd.read_excel(r'F:\乌鲁木齐公交运行\BUSLINES_0428.xlsx',sheet_name='Sheet1')
-writer=pd.ExcelWriter(r'F:\乌鲁木齐公交运行\BUSLINES_0428_reshape.xlsx')
+buslines=pd.read_excel(r'F:\乌鲁木齐公交运行\BUSLINES.xlsx',sheet_name='Sheet1')
+writer=pd.ExcelWriter(r'F:\乌鲁木齐公交运行\BUSLINES_reshape.xlsx')
 for bl in linelist:
     buslinei=buslines[buslines['Busline']==bl]
     startr = 0
@@ -186,5 +187,5 @@ for bld in set(buslines.BLD):
     #plt.show()
 
 # urumqi stations
-https://restapi.amap.com/v3/place/text?keywords=%E7%AB%99&city=%E4%B9%8C%E9%B2%81%E6%9C%A8%E9%BD%90&offset=20&page=1&key=3a54f278f73608bb1e859f3249e94eef&extensions=base
+"https://restapi.amap.com/v3/place/text?keywords=%E7%AB%99&city=%E4%B9%8C%E9%B2%81%E6%9C%A8%E9%BD%90&offset=20&page=1&key={}&extensions=base".format(key)
 
