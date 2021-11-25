@@ -23,9 +23,10 @@ def distancefun(lat1, long1, lat2, long2):
 #########use amap api to obtain bus stop coordinates
 busstops=pd.DataFrame()
 linelist=['3路',157,203,301,527,537,701,914]
+key=r''
 for line in linelist:
-    url = 'https://restapi.amap.com/v3/bus/linename?s=rsv3&extensions=all&key=559bdffe35eec8c8f4dae959451d705c&output=json&city=%E4%B9%8C%E9%B2%81%E6%9C%A8%E9%BD%90&offset=2&keywords={}&platform=JS'.format(
-        line)
+    url = 'https://restapi.amap.com/v3/bus/linename?s=rsv3&extensions=all&key={}&output=json&city=%E4%B9%8C%E9%B2%81%E6%9C%A8%E9%BD%90&offset=2&keywords={}&platform=JS'.format(
+       key, line)
     r = requests.get(url, verify=False).text
     rt = json.loads(r)
     print(line,len(rt['buslines']))
@@ -58,14 +59,14 @@ for line in linelist:
             busstops = pd.concat([busstops, busstopdf], axis=0)
 
 busstops=busstops.reset_index().drop(columns=['index'])
-busstops.to_excel( r'D:\Hyder安诚\乌鲁木齐公交运行\Bus Route From Web\bus_stops_fromWeb.xlsx',index=False)
+busstops.to_excel( r'D:\乌鲁木齐公交运行\Bus Route From Web\bus_stops_fromWeb.xlsx',index=False)
 
 
 
 ###match busline nodes from EMME with bus stops from Urumqi Transportation Center's Database
 ###需要人工检查好用于匹配的站点
-data=pd.read_excel(r'D:\Hyder安诚\乌鲁木齐公交运行\buslinematchstop9.xls')
-busdb=pd.read_excel(r'D:\Hyder安诚\乌鲁木齐公交运行\9条线路fromdatabase.xlsx')
+data=pd.read_excel(r'D:\乌鲁木齐公交运行\buslinematchstop9.xls')
+busdb=pd.read_excel(r'D:\乌鲁木齐公交运行\9条线路fromdatabase.xlsx')
 busdb=busdb.sort_values(by=['BUS_LINE_NAME', 'DIRECTION', 'STATION_SEQ'])
 busdb['BUS_LINE_NAME']=busdb['BUS_LINE_NAME'].replace('528A','528路')
 busdb['BLD']=''
@@ -170,9 +171,9 @@ print(data.groupby(['Bus Name']).agg(
     alight=pd.NamedAgg(column='alight',aggfunc='sum'),
 ).reset_index())
 ########adjust alight and board volumns
-data.to_excel(r'D:\Hyder安诚\乌鲁木齐公交运行\buslinematchstop9_0626mid2.xlsx',index=False)
+data.to_excel(r'D:\乌鲁木齐公交运行\buslinematchstop9_0626mid2.xlsx',index=False)
 
-data=pd.read_excel(r'D:\Hyder安诚\乌鲁木齐公交运行\buslinematchstop9_0626mid2.xlsx')
+data=pd.read_excel(r'D:\乌鲁木齐公交运行\buslinematchstop9_0626mid2.xlsx')
 data['change'] = 'N'
 data.loc[(data['Is A Stop'] == 'Y') & (data['no_alight'] == 1), 'change'] = 'Y'
 data.loc[(data['Is A Stop'] == 'N') & (data['no_alight'] == 0), 'change'] = 'Y'
@@ -253,7 +254,7 @@ data_sum_stop=data[data['Is A Stop']=='Y'].groupby(['Bus Name', 'stop_name', 'se
 
 
 
-writer = pd.ExcelWriter(r'D:\Hyder安诚\乌鲁木齐公交运行\buslinematchstop9_0626ver2.xlsx')
+writer = pd.ExcelWriter(r'D:\乌鲁木齐公交运行\buslinematchstop9_0626ver2.xlsx')
 data.to_excel(writer,sheet_name='data', startrow=0, startcol=0, index=False)
 data_sum.to_excel(writer,sheet_name='line_sum', startrow=0, startcol=0, index=False)
 writer.save()
@@ -289,7 +290,7 @@ for bld in set(data['Bus Name']):
             plt.annotate(pointn[i], xy=(x[i], y[i]), xytext=(x[i] - 0.0002, y[i] - 0.0002),fontsize=8)
 
     plt.title(bld)
-    figname=r'D:\Hyder安诚\乌鲁木齐公交运行\busfigs\{}.png'.format(bld)
+    figname=r'D:\乌鲁木齐公交运行\busfigs\{}.png'.format(bld)
     plt.savefig(figname, bbox_inches='tight')
     plt.close()
     #plt.show()
