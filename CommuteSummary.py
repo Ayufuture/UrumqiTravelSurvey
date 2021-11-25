@@ -11,7 +11,7 @@ from shapely.ops import nearest_points
 
 pd.options.mode.chained_assignment = None  # default='warn'
 plt.rcParams['font.family'] = 'simhei'
-summarypath=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\Results1109'
+summarypath=r'C:\调查结果数据\居民出行调查\Results\Results1109'
 dfhhw=pd.read_excel(summarypath+'\household_forsummary1109.xlsx')
 dfppw=pd.read_excel(summarypath+'\person_forsummary1109.xlsx')
 dftripw=pd.read_excel(summarypath+'\dftrip_forsummary1109_duptrips.xlsx')
@@ -50,8 +50,8 @@ wght_ct=pd.NamedAgg(column='wght_ct',aggfunc='sum'),
 ).reset_index()
 age_sum['ave_trip']=age_sum['wght_ct']/age_sum['wght']
 plt.scatter(x=np.array(age_sum['年龄']),y=np.array(age_sum['ave_trip']))
-age_sum.to_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\Results0922\age_trip_sum.xlsx')
-metrostation=gpd.read_file(r'C:\Users\yi.gu\Documents\Hyder Related\Test GIS\Subway Station.shp')
+age_sum.to_excel(r'C:\调查结果数据\居民出行调查\Results\Results0922\age_trip_sum.xlsx')
+metrostation=gpd.read_file(r'C:\Test GIS\Subway Station.shp')
 metrostation=metrostation.to_crs(3857)
 metrobuffer=gpd.GeoDataFrame({'Id':metrostation['Id'],'Sta_Name':metrostation['Sta_Name'],'geometry':metrostation.buffer(800)})
 metrobuffer=metrobuffer.to_crs(4326)
