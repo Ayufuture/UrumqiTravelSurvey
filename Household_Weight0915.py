@@ -2,10 +2,10 @@
 import pandas as pd
 
 pd.options.mode.chained_assignment = None  # default='warn'
-rawdatafile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\乌鲁木齐市居民出行调查数据-0914.xlsx'
-restrictionfile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Restrictions0922.xlsx'
-df5_kidfilename=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\Results0922\df_Kid_adj.xlsx'
-dfstr_kidfilename=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\Results\Results0922\dfStr_Kid_adj.xlsx'
+rawdatafile=r'C:\调查结果数据\居民出行调查\乌鲁木齐市居民出行调查数据-0914.xlsx'
+restrictionfile=r'C:\调查结果数据\居民出行调查\Restrictions0922.xlsx'
+df5_kidfilename=r'C:\调查结果数据\居民出行调查\Results\Results0922\df_Kid_adj.xlsx'
+dfstr_kidfilename=r'C:\调查结果数据\居民出行调查\Results\Results0922\dfStr_Kid_adj.xlsx'
 
 df0=pd.read_excel(rawdatafile,sheet_name='家庭信息') #info per household) #info per household
 df0=df0.rename(columns={'区域名称':'行政区','家庭总人数':'常住人口数','其中不满6周岁人数':'不满6周岁人口数','私人小客车':'私家车'})
@@ -121,8 +121,6 @@ df5_HHsize['total']=df5_HHsize['HHweight']*df5_HHsize['size_adj']*df5_HHsize['�
 dfStr1=df5_HHsize.groupby(['扩样街道编号', 'CensusPop','CensusHH'])['total'].sum().reset_index()
 dfStr1['diff']=dfStr1['CensusPop']-dfStr1['total']
 print(dfStr1)
-#df5_HHsize.to_excel(r'D:\Hyder安诚\调查结果数据\居民出行调查\Results\df_HHsize_adj.xlsx', sheet_name='df_HHsize',index=False)
-#dfStr_HHsize.to_excel(r'D:\Hyder安诚\调查结果数据\居民出行调查\Results\dfStr_HHsize_adj.xlsx', sheet_name='dfStr_HHsize',index=False)
 
 
 print("请选择车辆信息表的形式：1：全市；2：分区；3：分街道，请输入数字")
@@ -190,8 +188,7 @@ if VehTableN=='1': # only total vehicle number of whole city is available, dataf
         total_pop_err = abs(total_pop_sample - StreetN['CensusPop'].sum())
         print('vehicle adjustment loop {} vehicle err {} pop_err {}'.format(loopv,int(veh_err),int(total_pop_err)))
     df5_Veh=pd.merge(df5_Veh,dfStr_Veh[['扩样街道编号', '行政区', '常住人口数', '私家车','veh_adj']],how='left',on=['扩样街道编号', '行政区', '常住人口数', '私家车'])
-    #df5_Veh.to_excel(r'D:\Hyder安诚\调查结果数据\居民出行调查\Results\df_Veh_adj.xlsx', sheet_name='df_Veh',index=False)
-    #dfStr_Veh.to_excel(r'D:\Hyder安诚\调查结果数据\居民出行调查\Results\dfStr_Veh_adj.xlsx', sheet_name='dfStr_Veh',index=False)
+
 
 
 
