@@ -5,8 +5,8 @@ import re
 
 pd.options.mode.chained_assignment = None  # default='warn'
 ######################公交满意度调查结果分析#########################################################
-data=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\乌鲁木齐市公交满意度调查数据06.15.xlsx',sheet_name='Sheet1')
-dictionary=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\乌鲁木齐市公交满意度调查数据06.15.xlsx',sheet_name='代号')
+data=pd.read_excel(r'C:\调查结果数据\乌鲁木齐市公交满意度调查数据06.15.xlsx',sheet_name='Sheet1')
+dictionary=pd.read_excel(r'C:\调查结果数据\乌鲁木齐市公交满意度调查数据06.15.xlsx',sheet_name='代号')
 dictionary=dictionary.iloc[:,0:49]
 colnamelist=dictionary.columns[1:]
 
@@ -154,9 +154,9 @@ print(bus_sum_od)
 tripdf.append(bus_sum_od)
 
 #满意度
-weight=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\乌鲁木齐市公交满意度调查数据06.15.xlsx',sheet_name='满意度权重')
+weight=pd.read_excel(r'C:\调查结果数据\乌鲁木齐市公交满意度调查数据06.15.xlsx',sheet_name='满意度权重')
 #score=pd.DataFrame({'choice':[1,2,3,4,5],'score':[10,8,6,4,2]})
-data_score=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\乌鲁木齐市公交满意度调查数据06.15.xlsx',sheet_name='Sheet1')
+data_score=pd.read_excel(r'C:\调查结果数据\乌鲁木齐市公交满意度调查数据06.15.xlsx',sheet_name='Sheet1')
 for colname in weight['三级分项']:
     data_score[colname]=data_score[colname].apply(lambda x: 12-2*x)
 person_score=pd.DataFrame({'序号':data['序号'],'行政区':data['行政区'],'性别':data['1.性别：'],'年龄':data['年龄'],'有无驾照':data['3.是否有驾照'],
@@ -242,7 +242,7 @@ for df in satisfydf[0:-1]:
     for a, b in zip(x, y):
         plt.text(a, b + 0.05, b, ha='center', va='bottom', fontsize=fz)
     plt.title('分'+df.columns[0]+'满意度', fontsize=15)
-    figname = r'D:/Hyder安诚/调查结果数据/公交满意度调查结果分析/' + df.columns[0] + '满意度.png'
+    figname = r'D:/调查结果数据/公交满意度调查结果分析/' + df.columns[0] + '满意度.png'
     plt.savefig(figname, bbox_inches='tight')
     plt.close()
 
@@ -259,7 +259,7 @@ for ind in set(sum_score['二级分项']):
     for a, b in zip(x, y):
         plt.text(a-0.25, b + 0.05, b,  fontsize=10)
     plt.title(ind+'满意度', fontsize=15)
-    figname = r'D:/Hyder安诚/调查结果数据/公交满意度调查结果分析/' + ind + '子项满意度.png'
+    figname = r'D:/调查结果数据/公交满意度调查结果分析/' + ind + '子项满意度.png'
     plt.savefig(figname, bbox_inches='tight')
     plt.close()
 
@@ -271,7 +271,7 @@ plt.xticks(x,np.array(sum_scorej['二级分项']),rotation=90)
 for a, b in zip(x, y):
     plt.text(a-0.25, b+0.05, b, fontsize=10)
 plt.title('二级分项满意度', fontsize=15)
-figname = r'D:/Hyder安诚/调查结果数据/公交满意度调查结果分析/二级分项满意度.png'
+figname = r'D:/调查结果数据/公交满意度调查结果分析/二级分项满意度.png'
 plt.savefig(figname, bbox_inches='tight')
 plt.close()
 
@@ -295,7 +295,7 @@ for col in district_score.columns[1:]:
     for a, b in zip(x, y):
         plt.text(a - 0.25, b + 0.05, b, fontsize=10)
     plt.title(col+'分区满意度',fontsize=15)
-    figname = r'D:/Hyder安诚/调查结果数据/公交满意度调查结果分析/分区'+col+'满意度.png'
+    figname = r'D:/调查结果数据/公交满意度调查结果分析/分区'+col+'满意度.png'
     plt.savefig(figname, bbox_inches='tight')
     plt.close()
 
@@ -308,7 +308,7 @@ for df in passengerdf[0:-1]:
     plt.axis('equal')
     plt.title(df.columns[0]+'比例',fontsize=15)
     plt.show()
-    figname = r'D:/Hyder安诚/调查结果数据/公交满意度调查结果分析/乘客' + df.columns[0]+'比例.png'
+    figname = r'D:/调查结果数据/公交满意度调查结果分析/乘客' + df.columns[0]+'比例.png'
     plt.savefig(figname, bbox_inches='tight')
     plt.close()
 
@@ -321,7 +321,7 @@ for df in passengerdf[0:-1]:
 
 
 ###save to excel###
-writer=pd.ExcelWriter(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\公交满意度summary0729.xlsx')
+writer=pd.ExcelWriter(r'C:\调查结果数据\公交满意度summary0729.xlsx')
 ### 1.乘客个人信息
 if len(passengerdf)>0:
     startr = 1
@@ -395,7 +395,7 @@ sum_df.loc[len(sum_df)-1,'总体满意度']='很满意&满意'
 print(sum_df)
 satisfydf.append(sum_df)
 
-writer=pd.ExcelWriter(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\公交满意度summary0728.xlsx')
+writer=pd.ExcelWriter(r'C:\调查结果数据\公交满意度summary0728.xlsx')
 if len(satisfydf)>0:
     startr = 1
     rowlist = [0]
