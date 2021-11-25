@@ -1,9 +1,11 @@
+#补充出行
+
 import numpy as np
 import pandas as pd
-
-rawdatafile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\乌鲁木齐市居民出行调查数据-0917.xlsx'
+path=r''
+rawdatafile=path+ r'/调查结果数据/居民出行调查/乌鲁木齐市居民出行调查数据-0917.xlsx'
 #补充了部分接送小孩的出行
-typefile=r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\kidpicktip_detection2.xlsx'
+typefile=path+ r'/调查结果数据/居民出行调查/kidpicktip_detection2.xlsx'
 
 typedf=pd.read_excel(typefile,sheet_name='NoAdult').dropna()
 print(len(typedf))
@@ -127,7 +129,7 @@ appendtrip=appendtrip.merge(dfpp0[['成员编号','家庭编号','区域名称',
 appendtrip['其他出行目的']='接送幼儿'
 
 appendtrip=appendtrip[['家庭编号','成员编号', '出行序号','区域名称', '街道名称', '社区名称','出行目的', '第一种交通方式', '使用的主要出行方式', 'period']]
-writer=pd.ExcelWriter(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\居民出行调查\乌鲁木齐市居民出行调查数据-0918.xlsx')
+writer=pd.ExcelWriter(path+r'/调查结果数据/居民出行调查/乌鲁木齐市居民出行调查数据-0918.xlsx')
 dfhh0.to_excel(writer,sheet_name='家庭信息', startrow=0, startcol=0,index=False)
 dfpp0.to_excel(writer,sheet_name='成员信息', startrow=0, startcol=0,index=False)
 dftrip0.to_excel(writer,sheet_name='出行信息', startrow=0, startcol=0,index=False)
