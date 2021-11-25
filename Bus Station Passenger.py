@@ -11,9 +11,9 @@ pd.options.mode.chained_assignment = None  # default='warn'
 客运站旅客出行意愿信息	根据客流规模扩样，乘车频率/选择乘车的理由
 客运站满意度	根据客流规模扩样，总体/分项目
 """
-data=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\枢纽调查\乌鲁木齐市客运站交通调查问卷数据库07.07.xlsx',sheet_name='客运站数据')
-dictionary=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\调查结果数据\枢纽调查\乌鲁木齐市客运站交通调查问卷数据库07.07.xlsx',sheet_name='代号')
-Province=gpd.read_file(r'C:\Users\yi.gu\Documents\Hyder Related\全国区划\省.shp')
+data=pd.read_excel(r'C:\调查结果数据\枢纽调查\乌鲁木齐市客运站交通调查问卷数据库07.07.xlsx',sheet_name='客运站数据')
+dictionary=pd.read_excel(r'C:\调查结果数据\枢纽调查\乌鲁木齐市客运站交通调查问卷数据库07.07.xlsx',sheet_name='代号')
+Province=gpd.read_file(r'C:\全国区划\省.shp')
 Province=Province.to_crs(4326)
 origin = gpd.GeoDataFrame(data, geometry = gpd.points_from_xy(data['出行起点X'], data['出行起点Y'], crs="EPSG:4326"))
 desti = gpd.GeoDataFrame(data, geometry = gpd.points_from_xy(data['出行终点X'], data['出行终点Y'], crs="EPSG:4326"))
@@ -171,7 +171,7 @@ scoredf.loc[len(scoredf),:]=scoredf.mean(axis=0)
 scoredf.loc[len(scoredf)-1,'内容']='平均'
 
 
-writer=pd.ExcelWriter(r'D:\Hyder安诚\调查结果数据\枢纽调查\客运站满意度summary0714.xlsx')
+writer=pd.ExcelWriter(r'D:\调查结果数据\枢纽调查\客运站满意度summary0714.xlsx')
 ### 1.乘客个人信息
 if len(passengerdf)>0:
     startr = 1
@@ -194,7 +194,7 @@ writer.save()
 
 #### OD Plot
 plt.rcParams['font.family'] = 'simhei'
-centroid=pd.read_excel(r'C:\Users\yi.gu\Documents\Hyder Related\全国区划\Centroid.xlsx')
+centroid=pd.read_excel(r'C:\全国区划\Centroid.xlsx')
 centroid=centroid[(centroid['级别']!='乌鲁木齐行政区') |(centroid['名称']!='乌鲁木齐县')|(centroid['名称']!='达坂城区') ]
 centroid['名称']=centroid['名称'].replace('乌鲁木齐市','乌鲁木齐市区')
 
@@ -248,7 +248,7 @@ plt.show()
 
 
 ####公交线路发车频率汇总
-data=pd.read_excel(r"C:\Users\yi.gu\Documents\2020乌鲁木齐交通调查任务书\各单位调研材料\公交系统运营指标\公交线网指标.xls",sheet_name='busline')
+data=pd.read_excel(r"C:\各单位调研材料\公交系统运营指标\公交线网指标.xls",sheet_name='busline')
 frequency_peak=pd.DataFrame({'高峰type':['<=5min','5-10min','10-15min','>15min']})
 frequency_np=pd.DataFrame({'平峰type':['<=5min','5-10min','10-15min','>15min']})
 for col in ['天山区', '水磨沟区', '米东区', '沙依巴克区', '经开区（头屯河区）', '高新区（新市区）']:
